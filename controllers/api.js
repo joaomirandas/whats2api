@@ -64,6 +64,11 @@ var BODY_CHECK = function(BODY){
 	});
 };
 
+/*
+* Route to send Messages
+* tested on version 0.0.1
+* performance: operational
+*/
 function sendMessage(instance){
 	var self = this;
 	var BODY = self.body;
@@ -89,6 +94,11 @@ function sendMessage(instance){
 	}
 }
 
+/*
+* Route to send Audios as file attached
+* tested on version 0.0.1
+* performance: operational
+*/
 function sendPTT(instance){
 	var self = this;
 	var BODY = self.body;
@@ -123,6 +133,11 @@ function sendPTT(instance){
 	}
 }
 
+/*
+* Route to send Files
+* tested on version 0.0.1
+* performance: operational
+*/
 function sendFile(instance){
 	var self = this;
 	var BODY = self.body;
@@ -163,56 +178,11 @@ function sendFile(instance){
 	}
 }
 
-function sendContact(instance){
-	var self = this;
-	var BODY = self.body;
-	if(WA_CLIENT){
-		if(WA_CLIENT.TOKEN == self.query['token']){
-			if (typeof BODY['contact'] !== 'undefined' ) {
-				BODY_CHECK(BODY).then(function(processData){
-					if(processData.status){
-						WA_CLIENT.CONNECTION.sendContact(processData.chatId, BODY['contact']);
-						self.json({status:true});
-					} else {
-						self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
-					}
-				});
-			} else {
-				self.json({status:false, err: "It is mandatory to inform the parameter 'contact'"});
-			}
-		} else {
-			self.json({status:false, err: "Wrong token authentication"});
-		}
-	} else {
-		self.json({status:false, err: "Your company is not set yet"});
-	}
-}
-
-function sendGiphy(instance){
-	var self = this;
-	var BODY = self.body;
-	if(WA_CLIENT){
-		if(WA_CLIENT.TOKEN == self.query['token']){
-			if (typeof BODY['link'] !== 'undefined' && typeof BODY['caption'] !== 'undefined') {
-				BODY_CHECK(BODY).then(function(processData){
-					if(processData.status){
-						WA_CLIENT.CONNECTION.sendGiphy(processData.chatId,BODY['link'],BODY['caption']);
-						self.json({status:true});
-					} else {
-						self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
-					}
-				});
-			} else {
-				self.json({status:false, err: "Parameters 'link' and 'caption' are mandatory"});
-			}
-		} else {
-			self.json({status:false, err: "Wrong token authentication"});
-		}
-	} else {
-		self.json({status:false, err: "Your company is not set yet"});
-	}
-}
-
+/*
+* Route to send location
+* tested on version 0.0.1
+* performance: degradated
+*/
 function sendLocation(instance){
 	var self = this;
 	var BODY = self.body;
@@ -238,23 +208,27 @@ function sendLocation(instance){
 	}
 }
 
-function sendLink(instance){
+/*
+* Route to send Giphy
+* tested on version 0.0.1
+* performance: degradated
+*/
+function sendGiphy(instance){
 	var self = this;
 	var BODY = self.body;
 	if(WA_CLIENT){
 		if(WA_CLIENT.TOKEN == self.query['token']){
-			if (typeof BODY['thumb'] !== 'undefined' && typeof BODY['url'] !== 'undefined' && typeof BODY['title'] !== 'undefined') {
+			if (typeof BODY['link'] !== 'undefined' && typeof BODY['caption'] !== 'undefined') {
 				BODY_CHECK(BODY).then(function(processData){
 					if(processData.status){
-						WA_CLIENT.CONNECTION.sendMessageWithThumb(BODY['thumb'].replace('data:'+base64MimeType(BODY['thumb'])+';base64,', ''), BODY['url'], BODY['title'], (BODY['description'] ? BODY['description'] : ''),processData.chatId);
-						
+						WA_CLIENT.CONNECTION.sendGiphy(processData.chatId,BODY['link'],BODY['caption']);
 						self.json({status:true});
 					} else {
 						self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
 					}
 				});
 			} else {
-				self.json({status:false, err: "Os parâmetros lat, lng e address são obrigatório"});
+				self.json({status:false, err: "Parameters 'link' and 'caption' are mandatory"});
 			}
 		} else {
 			self.json({status:false, err: "Wrong token authentication"});
