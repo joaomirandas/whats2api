@@ -30,11 +30,9 @@ masterKey           : w2apiisthebestlibrary
 > npm install && node debug.js
 ```
 ### Documentation
-Full documentation library can be found here and over postaman 
+Full documentation library can be found over Postman Collection, best way to share regardless of the language you prefer to use.
 
-[Documentation](https://choosealicense.com/licenses/mit/)
-
-[Postman Collection](https://choosealicense.com/licenses/mit/)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e785400267fa38cd5039)
 
 ## Using Library
 All the examples below are provided in CURL to allow as many users as possible to enjoy the solutions created, however if you use any specific language feel free to download the Postman collection here and get the code in its best language for you.
