@@ -1,6 +1,6 @@
 {
   "name": "w2api-master",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "An Javascript based WhatsApp library for connect your data as API",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/joaomirandasa/w2api/issues"
   },
-  "homepage": "https://github.com/joaomirandasa/w2api#readme"
+  "homepage": "https://github.com/joaomirandasa/w2api#readme",
+  "dependencies": {
+    "sulla-hotfix": "^1.8.0",
+    "total.js": "^3.4.0"
+  }
 }
