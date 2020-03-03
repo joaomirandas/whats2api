@@ -39,9 +39,10 @@ Full documentation library can be found here and over postaman
 ## Using Library
 All the examples below are provided in CURL to allow as many users as possible to enjoy the solutions created, however if you use any specific language feel free to download the Postman collection here and get the code in its best language for you.
 
+At any request you can use "chatId" or "phone" paramether but at the least one of them is necessary to works.
 
-### Sending messages
-```javascript
+### Sending Messages
+```curl
 curl --location --request POST 'localhost:8000/83430/sendMessage?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -50,9 +51,41 @@ curl --location --request POST 'localhost:8000/83430/sendMessage?token=j19ksi1mi
 }'
 ```
 
+### Sending Audios
+This will be sent as attached file, it's not like an audio recorded on mobile device. 
+Attention, at this example we use PHONE body paramether, so it's possible send requests using 
+```curl
+curl --location --request POST 'localhost:8000/83430/sendPTT?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"phone":"PHONE_NUMBER",
+	"audio": "https://upload.wikimedia.org/wikipedia/en/6/68/Crescendo_example.ogg"
+}'
+```
+
+Request response:
+```json
+{
+    "status": true
+}
+```
+
+### Sending Files
+This will be sent as attached file, it's important pay attention on maxfilesize allowed.
+```curl
+curl --location --request POST 'localhost:8000/83430/sendFile?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"phone":"PHONE_NUMBER",
+	"body": "https://upload.wikimedia.org/wikipedia/ru/3/33/NatureCover2001.jpg",
+	"filename": "NatureCover2001.jpg",
+	"caption": "W2API - Best REST API for WhatsApp"
+}'
+```
+
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+I'm looking forward to seeing what you can build out of it, so if you create something using this library, please let me know. If you develop something interesting we will be waiting for your PULL REQUEST.
 
 ## License
 
