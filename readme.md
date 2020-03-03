@@ -83,6 +83,34 @@ curl --location --request POST 'localhost:8000/83430/sendFile?token=j19ksi1mim1l
 }'
 ```
 
+### Sending Location
+This will send a location provided to user.
+*Performance Degradated on version 0.0.1*
+```curl
+curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"chatId":"PHONE_NUMBER@c.us",
+	"lat": "51.5074",
+	"lng": "0.1278",
+	"address": "LONDON!"
+}'
+```
+
+### Sending Giphy
+This will send an Giphy to user based on his web address.
+*Performance Degradated on version 0.0.1*
+```curl
+curl --location --request POST 'localhost:8000/83430/sendGiphy?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"chatId":"PHONE_NUMBER@c.us",
+	"link": "https://media.giphy.com/media/WirhZMBF1AZVK/giphy.gif",
+	"caption": "W2API - Best REST API for WhatsApp"
+}'
+```
+
+
 ## Contributing
 
 I'm looking forward to seeing what you can build out of it, so if you create something using this library, please let me know. If you develop something interesting we will be waiting for your PULL REQUEST.
