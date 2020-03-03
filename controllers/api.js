@@ -11,38 +11,38 @@ exports.install = function() {
 	* API ROUTES - Client Configuration
 	* This route exist to you can scan qrCode remotelly from browser
 	*/
-	ROUTE('/{instance}/qrcode/',               view_qrcode			);
+	ROUTE('/{instance}/qrcode/',				view_qrcode			);
 
 	/*
 	* API ROUTES - Services
 	* This routes provide you methods to send messages over API 
 	* Discover more over documentation at: 
 	*/
-	ROUTE('/{instance}/sendMessage',            sendMessage,		['post',default_timeout]);
-	ROUTE('/{instance}/sendPTT',                sendPTT,			['post',default_timeout]);
-	ROUTE('/{instance}/sendFile',               sendFile,			['post',default_timeout]);
-	ROUTE('/{instance}/sendLocation',           sendLocation,		['post',default_timeout]);
-	ROUTE('/{instance}/sendGiphy',           	sendGiphy,			['post',default_timeout]);
-	ROUTE('/{instance}/sendContact',           	sendContact,		['post',default_timeout]);
-	ROUTE('/{instance}/sendLink',           	sendLink,			['post',default_timeout]);
-	ROUTE('/{instance}/typing',           		typing,				['post',default_timeout]);
+	ROUTE('/{instance}/sendMessage',			sendMessage,		['post',default_timeout]);
+	ROUTE('/{instance}/sendPTT',				sendPTT,			['post',default_timeout]);
+	ROUTE('/{instance}/sendFile',				sendFile,			['post',default_timeout]);
+	ROUTE('/{instance}/sendLocation',			sendLocation,		['post',default_timeout]);
+	ROUTE('/{instance}/sendGiphy', 				sendGiphy,			['post',default_timeout]);
+	ROUTE('/{instance}/sendContact',			sendContact,		['post',default_timeout]);
+	ROUTE('/{instance}/sendLink',				sendLink,			['post',default_timeout]);
+	ROUTE('/{instance}/typing',					typing,				['post',default_timeout]);
 
 	/*
 	* API ROUTES - Master Routes
 	* This routes provide you methods to get branch of information over an single request
 	* Discover more over documentation at: 
 	*/
-	ROUTE('/{instance}/dialogs',           		dialogs,			[]);
-	ROUTE('/{instance}/getChatById',           	getChatById,		['post',default_timeout]);
+	ROUTE('/{instance}/dialogs',				dialogs,			[]);
+	ROUTE('/{instance}/getChatById',			getChatById,		['post',default_timeout]);
 
 	/*
 	* API ROUTES - Instance Routes
 	* This routes provide you methods to manipulate instance
 	* Discover more over documentation at: 
 	*/
-	ROUTE('/{instance}/{masterKey}/screenCapture',          screenCapture,		[]);
-	ROUTE('/{instance}/{masterKey}/isConnected',          	isConnected,		[]);
-	ROUTE('/{instance}/{masterKey}/takeOver',          		takeOver,			[]);
+	ROUTE('/{instance}/{masterKey}/screenCapture',			screenCapture,		[]);
+	ROUTE('/{instance}/{masterKey}/isConnected',			isConnected,		[]);
+	ROUTE('/{instance}/{masterKey}/takeOver',				takeOver,			[]);
 
 };
 
@@ -334,8 +334,8 @@ function screenCapture(instance,masterKey){
 	var self = this;
 	if(WA_CLIENT){
 		if(WA_CLIENT.TOKEN == self.query['token']){
-			WA_CLIENT.CONNECTION.page.screenshot({path: F.path.public()+'screenshot/'+instance+'_screencapture.png'});
-			self.view('screenshot', {address: 'screenshot/'+instance+'_screencapture.png'});
+			WA_CLIENT.CONNECTION.page.screenshot({path: F.path.public()+'screenshot/'+U.GUID(10)+'.png'});
+			self.view('screenshot', {address: 'screenshot/'+U.GUID(10)+'.png'});
 		} else {
 			self.json({status:false, err: "Wrong token authentication"});
 		}

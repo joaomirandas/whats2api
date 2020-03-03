@@ -5,7 +5,5 @@ const options = {};
 // options.port = parseInt(process.argv[2]);
 // options.config = { name: 'W2API.js' };
 // options.sleep = 3000;
-// options.inspector = 9229;
-// options.watch = ['private'];
 
-require('total.js/debug')(options);
+require('total.js').http('release', options);
