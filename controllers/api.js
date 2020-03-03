@@ -1,8 +1,8 @@
 //w2api - Version 0.0.1
 var fs = require('fs');
 var request = require('request').defaults({ encoding: null });
-const.ALLOW_TYPES = ['application/pdf','image/jpeg','image/png','audio/ogg','image/gif'];
-const.default_timeout = 3000;
+global.ALLOW_TYPES = ['application/pdf','image/jpeg','image/png','audio/ogg','image/gif'];
+global.default_timeout = 3000;
 global.download = require('download-file');
 
 exports.install = function() {
@@ -11,7 +11,7 @@ exports.install = function() {
 	* API ROUTES - Client Configuration
 	* This route exist to you can scan qrCode remotelly from browser
 	*/
-	ROUTE('/qrcode/{client_id}/',               view_qrcode			);
+	ROUTE('/{instance}/qrcode/',               view_qrcode			);
 
 	/*
 	* API ROUTES - Services
@@ -119,7 +119,7 @@ function sendPTT(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -159,7 +159,7 @@ function sendFile(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -184,7 +184,7 @@ function sendContact(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -209,7 +209,7 @@ function sendGiphy(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -234,7 +234,7 @@ function sendLocation(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -260,7 +260,7 @@ function sendLink(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -277,7 +277,7 @@ function dialogs(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -299,7 +299,7 @@ function getChatById(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -326,7 +326,7 @@ function typing(instance){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -340,7 +340,7 @@ function screenCapture(instance,masterKey){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -357,7 +357,7 @@ function isConnected(instance,masterKey){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
@@ -371,14 +371,14 @@ function takeOver(instance,masterKey){
 			self.json({status:false, err: "Wrong token authentication"});
 		}
 	} else {
-		self.json({status:false, err: "Yout company is not set yet"});
+		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
 function view_qrcode(CLIENT_ID){
 	var self = this;
-	if(CLIENTS[CLIENT_ID]){
-		self.view('qrcode', {qrcode: CLIENTS[CLIENT_ID].QR_CODE});
+	if(WA_CLIENT){
+		self.view('qrcode', {qrcode: WA_CLIENT.QR_CODE});
 	} else {
 		self.throw404('QR CODE NOT FOUND IN THIS SERVER');
 	}

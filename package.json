@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/joaomirandasa/w2api#readme",
   "dependencies": {
+    "async": "^3.2.0",
+    "download-file": "^0.1.5",
+    "moment": "^2.24.0",
     "sulla-hotfix": "^1.8.0",
     "total.js": "^3.4.0"
   }

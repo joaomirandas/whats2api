@@ -4,7 +4,6 @@ var fs = require('fs');
 var async = require("async");
 var request = require('request');
 var moment = require('moment');
-moment.locale('pt-br');
 const mime = require('mime-types');
 global.uaOverride = 'WhatsApp/2.16.352 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Safari/605.1.15';
 global.WA_CLIENT = {};
@@ -160,6 +159,11 @@ WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
   });
 };
 
+WHATS_API.prototype.SET_QRCODE = function(code){
+  var that = this;
+  that.QR_CODE = code;
+};
+
 module.exports = WHATS_API;
 
 ON('ready', function(){
@@ -177,10 +181,9 @@ ON('ready', function(){
   /*
   * Declare event getter for when qrcode is available from sulla-api
   */
-  sulla.ev.on('qrdata', function (qrcode,sessionId) {
-
+  sulla.ev.on('qr.**', function (qrcode,sessionId) {
     //SETTING QRCODE AVAILABLE ON address/qrCode
-    WA_CLIENT.QR_CODE(qrcode);
+    WA_CLIENT.SET_QRCODE(qrcode);
 
     // var imageBuffer = Buffer.from(qrcode, 'base64');
     // fs.writeFileSync(F.path.public('/QR_CODES/qr_code_'+(sessionId ? sessionId.replace('.','') : '')+'.png') , imageBuffer);
@@ -191,7 +194,10 @@ ON('ready', function(){
   * Attention to headless param
   */
   sulla.create(F.config['instance'],{
-    headless: true
+    headless: true,
+    autoRefresh:false, 
+    qrRefreshS:30,
+    killTimer: 60
     // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     // executablePath: '/var/www/app/node_modules/puppeteer/.local-chromium/linux-706915'
   }).then(function(client){
