@@ -18,7 +18,7 @@ Each client is undertood as INSTANCE, we gonna set an instance NUMBER for him, t
 ### Configuring the enviroment
 To start - download the package, open /config file and set variables below - please respect type of variables or your code will not run properly
 
-```javascript
+```plain
 //WhatsApp Configurations		
 instance            : 83430
 webhook             : http://localhost:3000
