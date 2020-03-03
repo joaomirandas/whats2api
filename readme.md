@@ -26,7 +26,7 @@ token               : j19ksi1mim1lksm12213
 masterKey           : w2apiisthebestlibrary
 ```
 
-### Start te project
+### Start the project
 
 ```bash
 > npm install && node debug.js
