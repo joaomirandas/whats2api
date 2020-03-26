@@ -18,7 +18,7 @@ Each client is undertood as INSTANCE, we gonna set an instance NUMBER for him, t
 ### Configuring the enviroment
 To start - download the package, open /config file and set variables below - please respect type of variables or your code will not run properly
 
-```javascript
+```plain
 //WhatsApp Configurations		
 instance            : 83430
 webhook             : http://localhost:3000
@@ -26,11 +26,14 @@ token               : j19ksi1mim1lksm12213
 masterKey           : w2apiisthebestlibrary
 ```
 
-### Start te project
+### Start the project
 
 ```bash
 > npm install && node debug.js
 ```
+
+As soon you start the project navigate to address http://localhost/83430/qrCode and scan the qrCode using your mobile.
+
 ### Documentation
 Full documentation library can be found over Postman Collection, best way to share regardless of the language you prefer to use.
 
@@ -109,7 +112,11 @@ curl --location --request POST 'localhost:8000/83430/sendGiphy?token=j19ksi1mim1
 	"caption": "W2API - Best REST API for WhatsApp"
 }'
 ```
+## Security
 
+To avoid issues with use of this library, it's not allowed start conversations, you only can answer who already talked to you. I can't garantee your number will not be blocked from WhatsApp - You need to be aware of the use you will be making of this tool, be aware you are only responsible for each and every use of this library.
+
+Remember, be blocked from WhatsApp can be unreversible.
 
 ## Contributing
 
