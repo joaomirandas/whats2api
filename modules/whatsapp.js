@@ -35,14 +35,14 @@ function WHATS_API(USER_ID) {
 * 3 - viewed
 * 4 - listened
 */
-var SANITIZE_ACK = function(data){
+var SANITIZE_ACK = function(instanceID,data){
   return JSON.stringify({
       ack: [{
         id: data.id._serialized,
         chatId: data.id.remote,
         status: (data.ack == 1 ? 'sent' : (data.ack == 2 ? 'delivered' : 'viewed'))
       }],
-      instanceId: that.INSTANCE
+      instanceId: instanceID
   });
 };
 
@@ -50,7 +50,7 @@ var SANITIZE_ACK = function(data){
 * Sanitizing the type of message response i want on webhook POST request
 * you can edit this method but pay attention to documentation.
 */
-var SANITIZE_MSG = function(data) {
+var SANITIZE_MSG = function(instanceID,data) {
   return JSON.stringify({
     messages: [{ 
       id: data.id,
@@ -67,7 +67,7 @@ var SANITIZE_MSG = function(data) {
       quotedMsgBody: (data.quotedMsgObj ? data.quotedMsgObj : null),
       chatName: data.sender.formattedName 
     }],
-    instanceId: that.INSTANCE
+    instanceId: instanceID
   });
 };
 
@@ -77,7 +77,7 @@ var SANITIZE_MSG = function(data) {
 */
 WHATS_API.prototype.PROCESS_MESSAGE = function(data){
   var that = this;
-  var SANITIZED = SANITIZE_MSG(data);
+  var SANITIZED = SANITIZE_MSG(that.INSTANCE,data);
   request({
     method: 'POST',
     url:  that.WEBHOOK,
@@ -102,7 +102,7 @@ WHATS_API.prototype.PROCESS_MESSAGE = function(data){
 */
 WHATS_API.prototype.PROCESS_ACK = function(data){
   var that = this;
-  var SANITIZED = SANITIZE_ACK(data);
+  var SANITIZED = SANITIZE_ACK(that.INSTANCE,data);
   request({
     method: 'POST',
     url:  that.WEBHOOK,
