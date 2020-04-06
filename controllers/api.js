@@ -256,7 +256,7 @@ function sendContact(instance){
 	var BODY = self.body;
 	if(WA_CLIENT){
 		if(WA_CLIENT.TOKEN == self.query['token']){
-			if (typeof BODY['link'] !== 'undefined' && typeof BODY['caption'] !== 'undefined') {
+			if (typeof BODY['contact'] !== 'undefined') {
 				BODY_CHECK(BODY).then(function(processData){
 					if(processData.status){
 						WA_CLIENT.CONNECTION.sendContact(processData.chatId,BODY['contact']);
