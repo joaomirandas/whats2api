@@ -1,4 +1,4 @@
-//w2api - Version 0.0.1
+//w2api - Version 0.0.2
 const sulla = require('sulla-hotfix');
 var fs = require('fs');
 var async = require("async");
@@ -184,17 +184,14 @@ ON('ready', function(){
   sulla.ev.on('qr.**', function (qrcode,sessionId) {
     //SETTING QRCODE AVAILABLE ON address/qrCode
     WA_CLIENT.SET_QRCODE(qrcode);
-
-    // var imageBuffer = Buffer.from(qrcode, 'base64');
-    // fs.writeFileSync(F.path.public('/QR_CODES/qr_code_'+(sessionId ? sessionId.replace('.','') : '')+'.png') , imageBuffer);
   });
 
   /*
-  * Finally creating connection and start headless webbrowser
+  * Finally creating connection and start headless webBrowser
   * Attention to headless param
   */
-  sulla.create(F.config['instance'],{
-    headless: true,
+  sulla.create("/whatsSessions/"+F.config['instance'],{
+    headless: false,
     autoRefresh:false, 
     qrRefreshS:30,
     killTimer: 60

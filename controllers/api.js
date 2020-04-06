@@ -24,8 +24,15 @@ exports.install = function() {
 	ROUTE('/{instance}/sendLocation',			sendLocation,		['post',default_timeout]);
 	ROUTE('/{instance}/sendGiphy', 				sendGiphy,			['post',default_timeout]);
 	ROUTE('/{instance}/sendContact',			sendContact,		['post',default_timeout]);
-	ROUTE('/{instance}/sendLink',				sendLink,			['post',default_timeout]);
 	ROUTE('/{instance}/typing',					typing,				['post',default_timeout]);
+
+	/*
+	* API ROUTES - PersonalInformation
+	* This routes provide you methods to manipulate personal information of numberConnected
+	* Discover more over documentation at: 
+	*/
+	ROUTE('/{instance}/setMyName/',				setMyName,			['post',default_timeout]);
+	ROUTE('/{instance}/setMyStatus/',			setMyStatus,		['post',default_timeout]);
 
 	/*
 	* API ROUTES - Master Routes
@@ -238,13 +245,40 @@ function sendGiphy(instance){
 	}
 }
 
+/*
+* Route to send Contact
+* tested on version 0.0.2
+* performance: NotTested
+*/
+function sendContact(instance){
+	var self = this;
+	var BODY = self.body;
+	if(WA_CLIENT){
+		if(WA_CLIENT.TOKEN == self.query['token']){
+			if (typeof BODY['link'] !== 'undefined' && typeof BODY['caption'] !== 'undefined') {
+				BODY_CHECK(BODY).then(function(processData){
+					if(processData.status){
+						WA_CLIENT.CONNECTION.sendContact(processData.chatId,BODY['contact']);
+						self.json({status:true});
+					} else {
+						self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
+					}
+				});
+			} else {
+				self.json({status:false, err: "Parameter 'contact' is mandatory"});
+			}
+		} else {
+			self.json({status:false, err: "Your company is not set yet"});
+		}
+	}
+}
+
 function dialogs(instance){
 	var self = this;
 	var BODY = self.body;
 	if(WA_CLIENT){
 		if(WA_CLIENT.TOKEN == self.query['token']){
 			WA_CLIENT.CONNECTION.getAllChats().then(function(contacts){
-				console.log(contacts);
 				self.json({status:true, dialogs:contacts});
 			});
 		} else {
@@ -343,6 +377,44 @@ function takeOver(instance,masterKey){
 			self.json({status:true});
 		} else {
 			self.json({status:false, err: "Wrong token authentication"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+function setMyName(){
+	var self = this;
+	var BODY = self.body;
+	if(WA_CLIENT){
+		if(BODY['newName']){
+			if(WA_CLIENT.TOKEN == self.query['token']){
+				WA_CLIENT.CONNECTION.setMyName(BODY['newName']);
+				self.json({status:true});
+			} else {
+				self.json({status:false, err: "Wrong token authentication"});
+			}
+		} else {
+			self.json({status:false, err: "newName paramether is mandatory!"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+function setMyStatus(){
+	var self = this;
+	var BODY = self.body;
+	if(WA_CLIENT){
+		if(BODY['newStatus']){
+			if(WA_CLIENT.TOKEN == self.query['token']){
+				WA_CLIENT.CONNECTION.setMyStatus(BODY['newStatus']);
+				self.json({status:true});
+			} else {
+				self.json({status:false, err: "Wrong token authentication"});
+			}
+		} else {
+			self.json({status:false, err: "newStatus paramether is mandatory!"});
 		}
 	} else {
 		self.json({status:false, err: "Your company is not set yet"});
