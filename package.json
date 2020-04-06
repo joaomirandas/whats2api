@@ -1,6 +1,6 @@
 {
   "name": "w2api-master",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An Javascript based WhatsApp library for connect your data as API",
   "main": "index.js",
   "scripts": {
