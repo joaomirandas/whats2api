@@ -100,6 +100,27 @@ curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1m
 }'
 ```
 
+### Send Contact
+This route allow you to send a lot of information within an VCard.
+*Performance Operational on version 0.0.5*
+```curl
+curl --location --request POST 'localhost:8000/83430/sendContact?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--header 'Content-Type: text/plain' \
+--data-raw '{
+	"chatId":"PHONENUMBER@c.us",
+	"firstName": "Joao Vitor",
+	"middleName": "Miranda",
+	"lastName": "Santos",
+	"organization": "W2API",
+	"photo": "https://avatars3.githubusercontent.com/u/29043431?s=460",
+	"workPhone":"+5511995126279",
+	"title": "Best API Builder",
+	"url": "www.w2api.io",
+	"note": "W2API - Best REST API for WhatsApp"
+}'
+```
+
 ### Sending Giphy
 This will send an Giphy to user based on his web address.
 *Performance Degradated on version 0.0.1*

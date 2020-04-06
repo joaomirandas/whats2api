@@ -1,6 +1,6 @@
 {
   "name": "w2api-master",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An Javascript based WhatsApp library for connect your data as API",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
     "async": "^3.2.0",
     "download-file": "^0.1.5",
     "moment": "^2.24.0",
-    "sulla-hotfix": "^1.8.37",
-    "total.js": "^3.4.0"
+    "sulla-hotfix": "^1.8.40",
+    "total.js": "^3.4.0",
+    "vcards-js": "^2.10.0"
   }
 }

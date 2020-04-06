@@ -1,0 +1,656 @@
+{
+	"info": {
+		"_postman_id": "256ccb99-4222-492e-b3b0-e7d2f97db5aa",
+		"name": "W2API",
+		"description": "# W2API - WhatsApp REST API \n\nWelcome to best REST API for WhatsApp. \nImportant to know, it's not an official solution - if you need something professional please don't use this package.\n\nThis library provide you an complete solution for WhatsApp REST API without any necessities of code or change anything, obviously, if you want, you can contribute but give this information for us over PR.\n\n### Running\n```bash\n> npm install && node debug.js\n```\n### Documentation\nFull documentation library can be found here and over postaman \n\n[Documentation](https://choosealicense.com/licenses/mit/)\n\n[Postman Collection](https://choosealicense.com/licenses/mit/)\n\n## Contributing\n\nPull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.\n\n## License\n\n[MIT](https://choosealicense.com/licenses/mit/)\n\n\n## Legal\n\nThis code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WhatsApp or any of its affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.\n\n## Cryptography Notice\n\nThis distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software. BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted. See [http://www.wassenaar.org/](http://www.wassenaar.org/) for more information.\n\nThe U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms. The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "sendMessage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONE-NUMBER@c.us\",\n\t\"body\": \"W2API - Best REST API for WhatsApp\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendMessage?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendMessage"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "sendPTT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"phone\":\"PHONE_NUMBER\",\n\t\"audio\": \"https://upload.wikimedia.org/wikipedia/en/6/68/Crescendo_example.ogg\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendPTT?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendPTT"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "sendFile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"phone\":\"PHONE_NUMBER\",\n\t\"body\": \"https://upload.wikimedia.org/wikipedia/ru/3/33/NatureCover2001.jpg\",\n\t\"filename\": \"NatureCover2001.jpg\",\n\t\"caption\": \"W2API - Best REST API for WhatsApp\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendFile?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendFile"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "sendLocation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONE_NUMBER@c.us\",\n\t\"lat\": \"51.5074\",\n\t\"lng\": \"0.1278\",\n\t\"address\": \"LONDON!\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendLocation?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendLocation"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "sendContact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONENUMBER@c.us\",\n\t\"firstName\": \"Joao Vitor\",\n\t\"middleName\": \"Miranda\",\n\t\"lastName\": \"Santos\",\n\t\"organization\": \"W2API\",\n\t\"photo\": \"https://avatars3.githubusercontent.com/u/29043431?s=460\",\n\t\"workPhone\":\"+5511995126279\",\n\t\"title\": \"Best API Builder\",\n\t\"url\": \"www.w2api.io\",\n\t\"note\": \"W2API - Best REST API for WhatsApp\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendContact?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendContact"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "sendGiphy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONE_NUMBER@c.us\",\n\t\"link\": \"https://media.giphy.com/media/WirhZMBF1AZVK/giphy.gif\",\n\t\"caption\": \"W2API - Best REST API for WhatsApp\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/sendGiphy?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"sendGiphy"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				},
+				{
+					"name": "typing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONE_NUMBER@c.us\",\n\t\"state\": false\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/typing?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"typing"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Chats",
+			"item": [
+				{
+					"name": "dialogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/dialogs?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"dialogs"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "Get the full chat list from instance"
+					},
+					"response": []
+				},
+				{
+					"name": "getChatById",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chatId\":\"PHONE-NUMBER@c.us\"\n}"
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/getChatById?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"getChatById"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						},
+						"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "935b2ee7-e13e-425b-93da-7c4782bf4457",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a627299-8577-4a60-a19f-5be79fe32ab6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Server",
+			"item": [
+				{
+					"name": "readInstances",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{default_address}}/{{master_key}}/readInstances",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{master_key}}",
+								"readInstances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reloadServer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{default_address}}/{{master_key}}/reloadServer",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{master_key}}",
+								"reloadServer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "turnOff",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{default_address}}/{{master_key}}/turnOff",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{master_key}}",
+								"turnOff"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Personal",
+			"item": [
+				{
+					"name": "setMyName",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newName\": \"W2API - Best REST API for WhatsApp\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/setMyName?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"setMyName"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setMyStatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newStatus\": \"Work & Trust\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{default_address}}/{{instance}}/setMyStatus?token={{token}}",
+							"host": [
+								"{{default_address}}"
+							],
+							"path": [
+								"{{instance}}",
+								"setMyStatus"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "screenCapture",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{default_address}}/{{instance}}/{{master_key}}/screenCapture?token={{token}}",
+					"host": [
+						"{{default_address}}"
+					],
+					"path": [
+						"{{instance}}",
+						"{{master_key}}",
+						"screenCapture"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+			},
+			"response": []
+		},
+		{
+			"name": "isConnected",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{default_address}}/{{instance}}/{{master_key}}/isConnected?token={{token}}",
+					"host": [
+						"{{default_address}}"
+					],
+					"path": [
+						"{{instance}}",
+						"{{master_key}}",
+						"isConnected"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "This request is responsible for sending text messages to WhatsApp - It is important to remember that one of the 'chatId' or 'phone' parameters must be informed, in addition, the 'body' parameter containing the message content is required."
+			},
+			"response": []
+		},
+		{
+			"name": "takeOver",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{default_address}}/{{instance}}/{{master_key}}/takeOver?token={{token}}",
+					"host": [
+						"{{default_address}}"
+					],
+					"path": [
+						"{{instance}}",
+						"{{master_key}}",
+						"takeOver"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "Returns the active session if the device has connected another instance of Web WhatsApp"
+			},
+			"response": []
+		},
+		{
+			"name": "batteryLevel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{default_address}}/{{instance}}/{{master_key}}/batteryLevel?token={{token}}",
+					"host": [
+						"{{default_address}}"
+					],
+					"path": [
+						"{{instance}}",
+						"{{master_key}}",
+						"batteryLevel"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "Returns the active session if the device has connected another instance of Web WhatsApp"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b2831b8a-0cfa-400c-ac84-aed2e181cf19",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "511bfeba-7e9d-4a4a-87f1-6be1ebbc5380",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1319d30c-deb3-4466-96f6-cf47be11c4ca",
+			"key": "default_address",
+			"value": "localhost:8000",
+			"type": "string"
+		},
+		{
+			"id": "535588f4-9987-4711-8023-772d72124d24",
+			"key": "instance",
+			"value": "83430",
+			"type": "string"
+		},
+		{
+			"id": "963965b8-30fb-4f75-8e59-1dd685d1241a",
+			"key": "token",
+			"value": "j19ksi1mim1lksm12213",
+			"type": "string"
+		},
+		{
+			"id": "a96628ff-37dc-4af9-bf05-2df1d0cc86ef",
+			"key": "master_key",
+			"value": "w2apiisthebestlibrary",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

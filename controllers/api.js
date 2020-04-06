@@ -4,6 +4,7 @@ var request = require('request').defaults({ encoding: null });
 global.ALLOW_TYPES = ['application/pdf','image/jpeg','image/png','audio/ogg','image/gif'];
 global.default_timeout = 3000;
 global.download = require('download-file');
+var vCardsJS = require('vcards-js');
 
 exports.install = function() {
 	
@@ -254,19 +255,31 @@ function sendGiphy(instance){
 function sendContact(instance){
 	var self = this;
 	var BODY = self.body;
+	var vCard = vCardsJS();
 	if(WA_CLIENT){
 		if(WA_CLIENT.TOKEN == self.query['token']){
-			if (typeof BODY['contact'] !== 'undefined') {
+			if (typeof BODY['workPhone'] !== 'undefined' && typeof BODY['firstName'] !== 'undefined') {
 				BODY_CHECK(BODY).then(function(processData){
 					if(processData.status){
-						WA_CLIENT.CONNECTION.sendContact(processData.chatId,BODY['contact']);
+						vCard.firstName = BODY['firstName'];
+						vCard.middleName = BODY['middleName'] ? BODY['middleName'] : '';
+						vCard.lastName = BODY['lastName'] ? BODY['lastName'] : '';
+						vCard.organization = BODY['organization'] ? BODY['organization'] : '';
+						if(BODY['photo']){
+							vCard.photo.attachFromUrl(BODY['photo'], 'JPEG');
+						}
+						vCard.workPhone = BODY['workPhone'] ? BODY['workPhone'] : '';
+						vCard.title = BODY['title'] ? BODY['title'] : '';
+						vCard.url = BODY['url'] ? BODY['url'] : '';
+						vCard.note = BODY['note'] ? BODY['note'] : '';
+						WA_CLIENT.CONNECTION.sendVCard(processData.chatId,vCard.getFormattedString(),BODY['firstName']);
 						self.json({status:true});
 					} else {
 						self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
 					}
 				});
 			} else {
-				self.json({status:false, err: "Parameter 'contact' is mandatory"});
+				self.json({status:false, err: "Parameter 'workPhone' and 'firstName' are mandatory"});
 			}
 		} else {
 			self.json({status:false, err: "Your company is not set yet"});
