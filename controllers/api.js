@@ -50,6 +50,7 @@ exports.install = function() {
 	ROUTE('/{instance}/{masterKey}/screenCapture',			screenCapture,		[]);
 	ROUTE('/{instance}/{masterKey}/isConnected',			isConnected,		[]);
 	ROUTE('/{instance}/{masterKey}/takeOver',				takeOver,			[]);
+	ROUTE('/{instance}/{masterKey}/batteryLevel',			batteryLevel,		[]);
 
 };
 
@@ -273,6 +274,11 @@ function sendContact(instance){
 	}
 }
 
+/*
+* That route allow you to get all dialog list from device
+* tested on version 0.0.4
+* performance: Operational
+*/
 function dialogs(instance){
 	var self = this;
 	var BODY = self.body;
@@ -289,6 +295,11 @@ function dialogs(instance){
 	}
 }
 
+/*
+* That route allow you to get information about an chat just using id of contact
+* tested on version 0.0.4
+* performance: Operational
+*/
 function getChatById(instance){
 	var self = this;
 	var BODY = self.body;
@@ -311,8 +322,10 @@ function getChatById(instance){
 	}
 }
 
-
-
+/*
+* That route allow you to simulate typing into an conversation
+* performance: Not Tested
+*/
 function typing(instance){
 	var self = this;
 	var BODY = self.body;
@@ -338,20 +351,39 @@ function typing(instance){
 	}
 }
 
+/*
+* That's amazing route allow you to see whats going on inside your headless - an screencapture is made from you
+* can be necessary load twice times that address to receive an image, pay some attention too because all images 
+* is saved at /public/screenshot/
+* tested on version 0.0.4
+* performance: Operational
+*/
 function screenCapture(instance,masterKey){
 	var self = this;
 	if(WA_CLIENT){
-		if(WA_CLIENT.TOKEN == self.query['token']){
-			WA_CLIENT.CONNECTION.page.screenshot({path: F.path.public()+'screenshot/'+U.GUID(10)+'.png'});
-			self.view('screenshot', {address: 'screenshot/'+U.GUID(10)+'.png'});
+		if(F.config['masterKey'] == masterKey){
+			if(WA_CLIENT.TOKEN == self.query['token']){
+				var imageAddress = U.GUID(10)+'.png';
+				WA_CLIENT.CONNECTION.page.screenshot({path: F.path.public()+'screenshot/'+imageAddress});
+				setTimeout(function(){
+					self.view('screenshot', {address: '/screenshot/'+imageAddress+'?time='+Math.floor(Date.now() / 1000)});
+				},1000);
+			} else {
+				self.json({status:false, err: "Wrong token authentication"});
+			}
 		} else {
-			self.json({status:false, err: "Wrong token authentication"});
+			self.json({status:false, err: "You don't have permissions to this action"});
 		}
 	} else {
 		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
+/*
+* Route to check if your device is connected of not to application
+* tested on version 0.0.4
+* performance: Operational
+*/
 function isConnected(instance,masterKey){
 	var self = this;
 	if(WA_CLIENT){
@@ -369,26 +401,41 @@ function isConnected(instance,masterKey){
 	}
 }
 
+/*
+* Route to takeOver conenction when your number open whatsWeb into another browser
+* tested on version 0.0.4
+* performance: Operational
+*/
 function takeOver(instance,masterKey){
 	var self = this;
 	if(WA_CLIENT){
-		if(WA_CLIENT.TOKEN == self.query['token']){
-			WA_CLIENT.CONNECTION.forceRefocus();
-			self.json({status:true});
+		if(F.config['masterKey'] == masterKey){
+			if(WA_CLIENT.TOKEN == self.query['token']){
+				WA_CLIENT.CONNECTION.forceRefocus();
+				self.json({status:true});
+			} else {
+				self.json({status:false, err: "Wrong token authentication"});
+			}
 		} else {
-			self.json({status:false, err: "Wrong token authentication"});
+			self.json({status:false, err: "You don't have permissions to this action"});
 		}
 	} else {
 		self.json({status:false, err: "Your company is not set yet"});
 	}
 }
 
+/*
+* Route to change your personal name of number Connected
+* tested on version 0.0.4
+* performance: Degradated
+*/
 function setMyName(){
 	var self = this;
 	var BODY = self.body;
 	if(WA_CLIENT){
 		if(BODY['newName']){
 			if(WA_CLIENT.TOKEN == self.query['token']){
+				console.log("Setting new name: ",BODY['newName']);
 				WA_CLIENT.CONNECTION.setMyName(BODY['newName']);
 				self.json({status:true});
 			} else {
@@ -402,12 +449,18 @@ function setMyName(){
 	}
 }
 
+/*
+* Route to change your personal status of number Connected
+* tested on version 0.0.4
+* performance: Operational
+*/
 function setMyStatus(){
 	var self = this;
 	var BODY = self.body;
 	if(WA_CLIENT){
 		if(BODY['newStatus']){
 			if(WA_CLIENT.TOKEN == self.query['token']){
+				console.log("Setting new status: ",BODY['newStatus']);
 				WA_CLIENT.CONNECTION.setMyStatus(BODY['newStatus']);
 				self.json({status:true});
 			} else {
@@ -421,6 +474,36 @@ function setMyStatus(){
 	}
 }
 
+/*
+* This route allow you to check battery of device running whatsApp
+* tested on version 0.0.4
+* performance: Operational
+*/
+function batteryLevel(instance,masterKey){
+	var self = this;
+	if(WA_CLIENT){
+		if(F.config['masterKey'] == masterKey){
+			if(WA_CLIENT.TOKEN == self.query['token']){
+				WA_CLIENT.CONNECTION.getBatteryLevel().then(function(response){
+					console.log(response);
+					self.json({status:true, batteryLevel: response});
+				});
+			} else {
+				self.json({status:false, err: "Wrong token authentication"});
+			}
+		} else {
+			self.json({status:false, err: "You don't have permissions to this action"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+/*
+* Route check your QRCode over browser
+* tested on version 0.0.4
+* performance: Operational
+*/
 function view_qrcode(CLIENT_ID){
 	var self = this;
 	if(WA_CLIENT){

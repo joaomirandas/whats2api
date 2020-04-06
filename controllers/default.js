@@ -1,8 +1,6 @@
-//w2api - Version 0.0.1
+//w2api - Version 0.0.4
 exports.install = function() {
 	ROUTE('/', view_index);
-	// or
-	// ROUTE('/');
 };
 
 function view_index() {

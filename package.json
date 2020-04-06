@@ -27,7 +27,7 @@
     "async": "^3.2.0",
     "download-file": "^0.1.5",
     "moment": "^2.24.0",
-    "sulla-hotfix": "^1.8.36",
+    "sulla-hotfix": "^1.8.37",
     "total.js": "^3.4.0"
   }
 }

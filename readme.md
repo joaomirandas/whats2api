@@ -112,6 +112,24 @@ curl --location --request POST 'localhost:8000/83430/sendGiphy?token=j19ksi1mim1
 	"caption": "W2API - Best REST API for WhatsApp"
 }'
 ```
+
+### Change your Status
+This route allow you to change status information of number connected.
+*Performance Operational on version 0.0.4*
+```curl
+curl --location --request POST 'localhost:8000/83430/setMyStatus?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"newStatus": "Work & Trust"
+}'
+```
+
+### Get Battery Level
+This route allow you to check battery level of physical device running WhatsApp.
+*Performance Operational on version 0.0.4*
+```curl
+curl --location --request GET 'localhost:8000/83430/w2apiisthebestlibrary/batteryLevel?token=j19ksi1mim1lksm12213'
+```
 ## Security
 
 To avoid issues with use of this library, it's not allowed start conversations, you only can answer who already talked to you. I can't garantee your number will not be blocked from WhatsApp - You need to be aware of the use you will be making of this tool, be aware you are only responsible for each and every use of this library.
