@@ -191,7 +191,7 @@ ON('ready', function(){
   * Attention to headless param
   */
   sulla.create("/whatsSessions/"+F.config['instance'],{
-    headless: false,
+    headless: true,
     autoRefresh:false, 
     qrRefreshS:30,
     killTimer: 60
