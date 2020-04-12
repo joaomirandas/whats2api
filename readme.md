@@ -1,4 +1,4 @@
-# W2API - WhatsApp REST API 
+# WHATS2API - WhatsApp REST API 
 
 [![npm version](https://img.shields.io/npm/v/w2api-master.svg?color=green)](https://www.npmjs.com/package/w2api-master)
 
