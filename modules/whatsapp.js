@@ -1,5 +1,5 @@
 //w2api - Version 0.0.2
-const sulla = require('sulla-hotfix');
+const openWA = require('@open-wa/wa-automate');
 var fs = require('fs');
 var async = require("async");
 var request = require('request');
@@ -11,9 +11,9 @@ global.WA_CLIENT = {};
 /*
 * WhatsApp API SUPER CLASS
 * Personal regards to:
-* Mohhamed Shah (Sulla Hotfix) - 
+* Mohhamed Shah (openWA) - 
 * Peter Sírka (TotalJS) - 
-* This library was built using SUllaHotfix and pieces of 
+* This library was built using openWA and pieces of 
 */
 function WHATS_API(USER_ID) {
   console.log("\n====================================================");
@@ -60,6 +60,8 @@ var SANITIZE_MSG = function(instanceID,data) {
       isForwarded: data.isForwarded,
       author: data.from,
       time: data.t,
+      lat: data.lat,
+      lng: data.lng,
       chatId: data.chat.id,
       type: data.type,
       senderName: data.sender.verifiedName,
@@ -130,7 +132,7 @@ WHATS_API.prototype.PROCESS_STATE = function(data){
 };
 
 /*
-* Prototype configuration for setup events incoming from sulla module
+* Prototype configuration for setup events incoming from openWA module
 * keep your hands away from this
 */
 WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
@@ -142,7 +144,7 @@ WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
     //CRECKING IF MESSAGE HAVE ANY MEDIA TYPE EMBED
      if (message.mimetype) {
       //SAVING MEDIA RECEIVED AND EXPOSE ADDRESS TO WEB
-      const mediaData = sulla.decryptMedia(message,uaOverride).then(function(DECRYPTED_DATA){
+      const mediaData = openWA.decryptMedia(message,uaOverride).then(function(DECRYPTED_DATA){
         var filename = `${message.t}.${mime.extension(message.mimetype)}`;
         var imageBuffer = Buffer.from(DECRYPTED_DATA, 'base64');
         that.PROCESS_MESSAGE(message);
@@ -161,6 +163,9 @@ WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
 
 WHATS_API.prototype.SET_QRCODE = function(code){
   var that = this;
+  if(qrCodeManager){
+    qrCodeManager.send({ qr: code });
+  };
   that.QR_CODE = code;
 };
 
@@ -179,9 +184,9 @@ ON('ready', function(){
   WA_CLIENT = new WHATS_API(F.config['instance']);
 
   /*
-  * Declare event getter for when qrcode is available from sulla-api
+  * Declare event getter for when qrcode is available from openWA-api
   */
-  sulla.ev.on('qr.**', function (qrcode,sessionId) {
+  openWA.ev.on('qr.**', function (qrcode,sessionId) {
     //SETTING QRCODE AVAILABLE ON address/qrCode
     WA_CLIENT.SET_QRCODE(qrcode);
   });
@@ -190,11 +195,11 @@ ON('ready', function(){
   * Finally creating connection and start headless webBrowser
   * Attention to headless param
   */
-  sulla.create("/whatsSessions/"+F.config['instance'],{
+  openWA.create("/whatsSessions/"+F.config['instance'],{
     headless: true,
-    autoRefresh:false, 
+    autoRefresh:true, 
     qrRefreshS:30,
-    killTimer: 60
+    killTimer: 6000
     // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     // executablePath: '/var/www/app/node_modules/puppeteer/.local-chromium/linux-706915'
   }).then(function(client){

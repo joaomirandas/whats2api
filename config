@@ -1,6 +1,6 @@
-name                            : W2API
+name                            : Whats2API
 author                          : João Vitor Miranda Santos
-version                         : 0.0.5
+version                         : 0.0.6
 
 //WhatsApp Configurations		
 instance						: 83430

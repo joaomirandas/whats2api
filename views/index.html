@@ -1,11 +1,133 @@
-@{title('Something awesome')}
+@{title('Whats2API')}
+<div style="display: flex;flex-direction: column;">
+	<h1 id="w2api-whatsapp-rest-api">W2API - WhatsApp REST API</h1>
+<p><a href="https://www.npmjs.com/package/w2api-master"><img src="https://img.shields.io/npm/v/w2api-master.svg?color=green" alt="npm version"></a></p>
+<p>Welcome to best REST API for WhatsApp. 
+This library provide you an complete solution for WhatsApp REST API without any necessities of code or change anything, obviously, if you want, you can contribute but give this information for us over PR. - Important to know, it&#39;s not an official solution - if you need something professional please don&#39;t use this package.</p>
+<p>Special thanks to developers of amazing packages used here, Mohammed Shah <a href="https://github.com/smashah">(smashah)</a> and Total.js <a href="https://github.com/totaljs">(totaljs)</a></p>
+<h2 id="setup">SETUP</h2>
+<p>This package was thought to be used as service for each connection, so you need to understand the structure of files and folders before start - please read with attention.</p>
+<p>Each connection with WhatsApp will need an dedicated running of this, you can run a lot of connections on the same server using PM2 or forever. For better approach too we will provide you an Docker solution.</p>
+<p>Each client is undertood as INSTANCE, we gonna set an instance NUMBER for him, to identify after if necessary. If you are running this probably you need to receive messages, the struture of receive will be over WEBHOOK post events, so you need to configure your preffered address too. (TIP: use some service as <a href="https://requestcatcher.com/">https://requestcatcher.com/</a> to test ). Another important thing to set is some TOKEN, this is used for protect your inbound endpoint. For a high level of changes you will need to set an MASTERKEY too, that can be used to do profound changes on server like restarts and force stops.</p>
+<h3 id="configuring-the-enviroment">Configuring the enviroment</h3>
+<p>To start - download the package, open /config file and set variables below - please respect type of variables or your code will not run properly</p>
+<pre><code class="lang-plain">//WhatsApp Configurations        <span class="hljs-built_in">
+instance </span>          <span class="hljs-keyword"> :</span> 83430
+webhook            <span class="hljs-keyword"> :</span> http://localhost:3000
+token              <span class="hljs-keyword"> :</span> j19ksi1mim1lksm12213
+masterKey          <span class="hljs-keyword"> :</span> w2apiisthebestlibrary
+</code></pre>
+<h3 id="start-the-project">Start the project</h3>
+<pre><code class="lang-bash">&gt; npm install &amp;&amp; <span class="hljs-keyword">node</span> <span class="hljs-title">debug</span>.js
+</code></pre>
+<p>As soon you start the project navigate to address <a href="http://localhost/83430/qrCode">http://localhost/83430/qrCode</a> and scan the qrCode using your mobile.</p>
+<h3 id="documentation">Documentation</h3>
+<p>Full documentation library can be found over Postman Collection, best way to share regardless of the language you prefer to use.</p>
+<p><a href="https://app.getpostman.com/run-collection/e785400267fa38cd5039"><img src="https://run.pstmn.io/button.svg" alt="Run in Postman"></a></p>
+<h2 id="using-library">Using Library</h2>
+<p>All the examples below are provided in CURL to allow as many users as possible to enjoy the solutions created, however if you use any specific language feel free to download the Postman collection here and get the code in its best language for you.</p>
+<p>At any request you can use &quot;chatId&quot; or &quot;phone&quot; paramether but at the least one of them is necessary to works.</p>
+<h3 id="sending-messages">Sending Messages</h3>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendMessage?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--data-raw '{
+    <span class="hljs-string">"chatId"</span>:<span class="hljs-string">"PHONE_NUMBER@c.us"</span>,
+    <span class="hljs-string">"body"</span>: <span class="hljs-string">"W2API - Best REST API for WhatsApp"</span>
+}'
+</code></pre>
+<h3 id="sending-audios">Sending Audios</h3>
+<p>This will be sent as attached file, it&#39;s not like an audio recorded on mobile device. 
+Attention, at this example we use PHONE body paramether, so it&#39;s possible send requests using </p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendPTT?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--data-raw '{
+    <span class="hljs-string">"phone"</span>:<span class="hljs-string">"PHONE_NUMBER"</span>,
+    <span class="hljs-string">"audio"</span>: <span class="hljs-string">"https://upload.wikimedia.org/wikipedia/en/6/68/Crescendo_example.ogg"</span>
+}'
+</code></pre>
+<p>Request response:</p>
+<pre><code class="lang-json">{
+    <span class="hljs-attr">"status"</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+<h3 id="sending-files">Sending Files</h3>
+<p>This will be sent as attached file, it&#39;s important pay attention on maxfilesize allowed.</p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendFile?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--data-raw '{
+    <span class="hljs-string">"phone"</span>:<span class="hljs-string">"PHONE_NUMBER"</span>,
+    <span class="hljs-string">"body"</span>: <span class="hljs-string">"https://upload.wikimedia.org/wikipedia/ru/3/33/NatureCover2001.jpg"</span>,
+    <span class="hljs-string">"filename"</span>: <span class="hljs-string">"NatureCover2001.jpg"</span>,
+    <span class="hljs-string">"caption"</span>: <span class="hljs-string">"W2API - Best REST API for WhatsApp"</span>
+}'
+</code></pre>
+<h3 id="sending-location">Sending Location</h3>
+<p>This will send a location provided to user.
+<em>Performance Degradated on version 0.0.1</em></p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendLocation?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--data-raw '{
+    <span class="hljs-string">"chatId"</span>:<span class="hljs-string">"PHONE_NUMBER@c.us"</span>,
+    <span class="hljs-string">"lat"</span>: <span class="hljs-string">"51.5074"</span>,
+    <span class="hljs-string">"lng"</span>: <span class="hljs-string">"0.1278"</span>,
+    <span class="hljs-string">"address"</span>: <span class="hljs-string">"LONDON!"</span>
+}'
+</code></pre>
+<h3 id="send-contact">Send Contact</h3>
+<p>This route allow you to send a lot of information within an VCard.
+<em>Performance Operational on version 0.0.5</em></p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendContact?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--header 'Content-<span class="hljs-keyword">Type</span>: text/plain' \
+--data-raw '{
+    <span class="hljs-string">"chatId"</span>:<span class="hljs-string">"PHONENUMBER@c.us"</span>,
+    <span class="hljs-string">"firstName"</span>: <span class="hljs-string">"Joao Vitor"</span>,
+    <span class="hljs-string">"middleName"</span>: <span class="hljs-string">"Miranda"</span>,
+    <span class="hljs-string">"lastName"</span>: <span class="hljs-string">"Santos"</span>,
+    <span class="hljs-string">"organization"</span>: <span class="hljs-string">"W2API"</span>,
+    <span class="hljs-string">"photo"</span>: <span class="hljs-string">"https://avatars3.githubusercontent.com/u/29043431?s=460"</span>,
+    <span class="hljs-string">"workPhone"</span>:<span class="hljs-string">"+5511995126279"</span>,
+    <span class="hljs-string">"title"</span>: <span class="hljs-string">"Best API Builder"</span>,
+    <span class="hljs-string">"url"</span>: <span class="hljs-string">"www.w2api.io"</span>,
+    <span class="hljs-string">"note"</span>: <span class="hljs-string">"W2API - Best REST API for WhatsApp"</span>
+}'
+</code></pre>
+<h3 id="sending-giphy">Sending Giphy</h3>
+<p>This will send an Giphy to user based on his web address.
+<em>Performance Degradated on version 0.0.1</em></p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> POST 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/sendGiphy?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213' \
+--header 'Content-<span class="hljs-keyword">Type</span>: application/json' \
+--data-raw '{
+    <span class="hljs-string">"chatId"</span>:<span class="hljs-string">"PHONE_NUMBER@c.us"</span>,
+    <span class="hljs-string">"link"</span>: <span class="hljs-string">"https://media.giphy.com/media/WirhZMBF1AZVK/giphy.gif"</span>,
+    <span class="hljs-string">"caption"</span>: <span class="hljs-string">"W2API - Best REST API for WhatsApp"</span>
+}'
+</code></pre>
+<h3 id="change-your-status">Change your Status</h3>
+<p>This route allow you to change status information of number connected.
+<em>Performance Operational on version 0.0.4</em></p>
+<pre><code class="lang-curl"><span class="hljs-string">curl </span><span class="hljs-built_in">--location</span> <span class="hljs-built_in">--request</span> <span class="hljs-string">POST </span><span class="hljs-string">'localhost:8000/83430/setMyStatus?token=j19ksi1mim1lksm12213'</span> \
+<span class="hljs-built_in">--header</span> <span class="hljs-string">'Content-Type: application/json'</span> \
+<span class="hljs-built_in">--data-raw</span> <span class="hljs-string">'{
+    "newStatus": "Work &amp; Trust"
+}'</span>
+</code></pre>
+<h3 id="get-battery-level">Get Battery Level</h3>
+<p>This route allow you to check battery level of physical device running WhatsApp.
+<em>Performance Operational on version 0.0.4</em></p>
+<pre><code class="lang-curl">curl --<span class="hljs-keyword">location</span> <span class="hljs-title">--request</span> GET 'localhost:<span class="hljs-number">8000</span>/<span class="hljs-number">83430</span>/w2apiisthebestlibrary/batteryLevel?<span class="hljs-attr">token=</span>j19ksi1mim1lksm12213'
+</code></pre>
+<h2 id="security">Security</h2>
+<p>To avoid issues with use of this library, it&#39;s not allowed start conversations, you only can answer who already talked to you. I can&#39;t garantee your number will not be blocked from WhatsApp - You need to be aware of the use you will be making of this tool, be aware you are only responsible for each and every use of this library.</p>
+<p>Remember, be blocked from WhatsApp can be unreversible.</p>
+<h2 id="contributing">Contributing</h2>
+<p>I&#39;m looking forward to seeing what you can build out of it, so if you create something using this library, please let me know. If you develop something interesting we will be waiting for your PULL REQUEST.</p>
+<h2 id="license">License</h2>
+<p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
+<h2 id="legal">Legal</h2>
+<p>This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WhatsApp or any of its affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.</p>
+<h2 id="cryptography-notice">Cryptography Notice</h2>
+<p>This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software. BEFORE using any encryption software, please check your country&#39;s laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted. See <a href="http://www.wassenaar.org/">http://www.wassenaar.org/</a> for more information.</p>
+<p>The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms. The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.</p>
+</div>
 
-<hr />
-<br />
-<p class="center">
-	The Node.js framework for all web developers with everything what you need.<br />
-	<b>Create something awesome.</b>
-</p>
-<br />
-<br />
-<div class="center"><a href="http://docs.totaljs.com" class="linkbutton">DOCUMENTATION</a></div>

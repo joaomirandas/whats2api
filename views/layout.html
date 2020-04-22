@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=11" />
-	<meta name="format-detection" content="telephone=no" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<meta name="robots" content="all,follow" />
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	@{import('meta', 'head', 'default.css', 'default.js', 'favicon.ico')}
-</head>
-<body>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=11" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="robots" content="all,follow" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		@{import('meta', 'head', 'default.css', 'default.js')}
+	</head>
+	<body>
+		<div class="topBar">
+			<a href="https://github.com/joaomirandasa/whats2api" target="_blank">
+				<img src="/images/whats2apiLogoWhite.png" class="logo">
+			</a>
+		</div>
+		<div class="container">
+			
+			@{body}
 
-	@{body}
-
-	<footer>
-		Available on github: <b>w2api</b>.
-	</footer>
-
-</body>
+		</div>
+	</body>
 </html>

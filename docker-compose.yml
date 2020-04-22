@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+	instance1:
+		container_name: instance1
+		build:
+        context: ./
+        dockerfile: ./Dockerfile
+      image: joaomirandas/whats2api:latest
+      restart: always
+    	ports:
+    		- "8001:8000"
+    instance2:
+		container_name: instance2
+		build:
+        context: ./
+        dockerfile: ./Dockerfile
+      image: joaomirandas/whats2api:latest
+      restart: always
+    	ports:
+    		- "8002:8000"

@@ -32,12 +32,26 @@ masterKey           : w2apiisthebestlibrary
 > npm install && node debug.js
 ```
 
-As soon you start the project navigate to address http://localhost/83430/qrCode and scan the qrCode using your mobile.
+As soon you start the project navigate to address http://localhost/{{instanceNumber}}/qrCode and wait for qrCode loads, this page also will auto refresh your qrCode each 30s, so if you does not have success on first attempt just wait and your qrCode will updeta himself. FYI this is run over WebSockets.
+
+## MultiInstances
+If you are looking how to run this on multi-instances please let me introduce another way, it's better then old fashion of PM2 and multiple clients on same server(if you don't know what is pm2, dont worry it's not important). The best you can do is run each instance separated, when you realize all that primary updates will be designed thinking on this. That way you avoid troubles on production enviroment effect multiple instances. To do this we gonna use Docker - Advise you to study a little bit docker for run this propperly. (an Docker-compose is alredy prepared for use)
+
+Docker image is available on [DockerHub](https://hub.docker.com/r/joaomirandas/whats2api): https://hub.docker.com/r/joaomirandas/whats2api
+
+You can built your own image with modifications, clone this repo to your preffered local, and run:
+```bash
+> docker build -t joaomirandas/whats2api .
+```
+This above command will create an container image of whats2API and prepare for run, when you feel good, just run:
+```bash
+> docker run --name instance1 -p 8001:8000 joaomirandas/whats2api
+```
 
 ### Documentation
 Full documentation library can be found over Postman Collection, best way to share regardless of the language you prefer to use.
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e785400267fa38cd5039)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/7437195/Szf82Twx?version=latest) 0.0.6
 
 ## Using Library
 All the examples below are provided in CURL to allow as many users as possible to enjoy the solutions created, however if you use any specific language feel free to download the Postman collection here and get the code in its best language for you.
@@ -88,7 +102,7 @@ curl --location --request POST 'localhost:8000/83430/sendFile?token=j19ksi1mim1l
 
 ### Sending Location
 This will send a location provided to user.
-*Performance Degradated on version 0.0.1*
+*Performance Operational on version 0.0.6*
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -97,6 +111,20 @@ curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1m
 	"lat": "51.5074",
 	"lng": "0.1278",
 	"address": "LONDON!"
+}'
+```
+
+### Sending Links with preview
+This will send a link with thumb preview
+*Performance Operaitonal on version 0.0.6*
+```curl
+curl --location --request POST 'localhost:8000/83430/sendLinkPreview?token=j19ksi1mim1lksm12213' \
+--header 'Content-Type: application/json' \
+--header 'Content-Type: text/plain' \
+--data-raw '{
+	"chatId":"PHONE-NUMBER@c.us",
+	"link": "https://github.com/joaomirandasa/whats2api/",
+	"text": "W2API - Best REST API for WhatsApp"
 }'
 ```
 

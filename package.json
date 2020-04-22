@@ -1,6 +1,6 @@
 {
   "name": "w2api-master",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An Javascript based WhatsApp library for connect your data as API",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joaomirandasa/w2api.git"
+    "url": "git+https://github.com/joaomirandasa/whats2api.git"
   },
   "keywords": [
     "whatsapp",
@@ -20,14 +20,16 @@
   "author": "João Vitor Miranda Santos",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/joaomirandasa/w2api/issues"
+    "url": "https://github.com/joaomirandasa/whats2api/issues"
   },
-  "homepage": "https://github.com/joaomirandasa/w2api#readme",
+  "homepage": "https://github.com/joaomirandasa/whats2api#readme",
   "dependencies": {
+    "@open-wa/wa-automate": "^1.8.77",
+    "minimist": ">=0.2.1",
     "async": "^3.2.0",
     "download-file": "^0.1.5",
     "moment": "^2.24.0",
-    "sulla-hotfix": "^1.8.41",
+    "request": "^2.88.2",
     "total.js": "^3.4.0",
     "vcards-js": "^2.10.0"
   }

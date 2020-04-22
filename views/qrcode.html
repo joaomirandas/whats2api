@@ -1,13 +1,32 @@
-@{layout('')}
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, minimum-scale=0.1">
-		<style type="text/css"></style>
-		<title>qr_code.png (410×410)</title>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		@{import('meta', 'default.js', 'favicon.ico')}
-	</head>
-	<body style="margin: 0px; background: #FFF;">
-		<div id="qrcode" class="center" style="margin-top: 30px;width: 410px; height: 410px; display: block ;margin-left: calc( 50% - 205px ); background-image: url('@{model.qrcode}');background-size: cover;"></div>
-	</body>
-</html>
+@{title('qr_code.png (350×350)')}
+	<div class="item">
+		<span>This qrCode will auto-refresh every ~30s</span>
+		<img id='loading' src="/loading.gif" style="position: absolute; width: 150px;height: 150px">
+		<div id="qrcode" class="qrCode" style="background-image: url('@{model.qrcode}');"></div>
+	</div>
+
+	<div class="item">
+		<video style="width: 100%;" controls onloadedmetadata="this.muted = true" playsinline autoplay muted loop>
+			<source src="/scan.mp4" type="video/mp4"></source>
+			Your browser does not support the video tag.
+		</video>
+	</div>
+	<script type="text/javascript">
+		if('@{model.qrcode}' != ''){
+			$('#loading').hide();
+		}
+		var socketConn = new WebSocket("ws://@{model.address}/qrCodeSocket/");
+		socketConn.onmessage = function (event) {
+			var message = JSON.parse(decodeURIComponent(event.data));
+		  	console.log("[WebSocket Event] - ",message);
+		  	if(message.qr){
+		   		$('#qrcode').css('background-image', 'url("'+message.qr+'")' );
+		   		$('#loading').hide();
+		  	};
+		};
+		function orderNewQR(){
+			if(socketConn){
+				socketConn.send(encodeURIComponent(JSON.stringify({message: 'newQR'})));
+			};
+		};
+	</script>
