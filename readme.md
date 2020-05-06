@@ -51,7 +51,7 @@ This above command will create an container image of whats2API and prepare for r
 ### Documentation
 Full documentation library can be found over Postman Collection, best way to share regardless of the language you prefer to use.
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/7437195/Szf82Twx?version=latest) 0.0.6
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/7437195/Szf82Twx?version=latest) 0.0.8
 
 ## Using Library
 All the examples below are provided in CURL to allow as many users as possible to enjoy the solutions created, however if you use any specific language feel free to download the Postman collection here and get the code in its best language for you.
