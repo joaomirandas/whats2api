@@ -1,4 +1,4 @@
-//w2api - Version 0.0.6
+//w2api - Version 0.0.8
 var fs = require('fs');
 var request = require('request').defaults({ encoding: null });
 global.ALLOW_TYPES = ['application/pdf','image/jpeg','image/png','audio/ogg','image/gif'];
@@ -56,9 +56,18 @@ exports.install = function() {
 	ROUTE('/{instance}/{masterKey}/takeOver',				takeOver,			[]);
 	ROUTE('/{instance}/{masterKey}/batteryLevel',			batteryLevel,		[]);
 
+	/*
+	* API ROUTES - Server Routes
+	* This routes provide you methods to manipulate instance
+	* Discover more over documentation at: 
+	*/	
+	ROUTE('/{masterKey}/readInstance',						readInstance,		[]);
+	ROUTE('/{masterKey}/reloadServer',						reloadServer,		[60000]);
+	ROUTE('/{masterKey}/setWebhook',						setWebhook,			['post',default_timeout]);
+
 };
 
-var BODY_CHECK = function(BODY){
+const BODY_CHECK = function(BODY){
 	return new Promise(function(resolve, reject) {
 		if (typeof BODY['chatId'] !== 'undefined') {
 			resolve({status:true, chatId: BODY['chatId'] });
@@ -73,6 +82,11 @@ var BODY_CHECK = function(BODY){
 		console.log("########## ERROR AT VERIFY BODY ################");
 		console.log(err);
 		console.log("########## ERROR AT VERIFY BODY ################");
+	});
+};
+const delay = function(time){
+	new Promise(function(resolve, reject) {
+		setTimeout(function(){return true},time);
 	});
 };
 
@@ -93,7 +107,7 @@ function qrCodeSocket(){
 
 /*
 * Route to send Messages
-* tested on version 0.0.1
+* tested on version 0.0.8
 * performance: operational
 */
 function sendMessage(instance){
@@ -123,7 +137,7 @@ function sendMessage(instance){
 
 /*
 * Route to send Audios as file attached
-* tested on version 0.0.1
+* tested on version 0.0.8
 * performance: operational
 */
 function sendPTT(instance){
@@ -162,7 +176,7 @@ function sendPTT(instance){
 
 /*
 * Route to send Files
-* tested on version 0.0.1
+* tested on version 0.0.8
 * performance: operational
 */
 function sendFile(instance){
@@ -207,7 +221,7 @@ function sendFile(instance){
 
 /*
 * Route to send location
-* tested on version 0.0.1
+* tested on version 0.0.8
 * performance: degradated
 */
 function sendLocation(instance){
@@ -237,7 +251,7 @@ function sendLocation(instance){
 
 /*
 * Route to send Giphy
-* tested on version 0.0.1
+* tested on version 0.0.8
 * performance: degradated
 */
 function sendGiphy(instance){
@@ -306,8 +320,8 @@ function sendContact(instance){
 }
 
 /*
-* Route to send LInk with thumbPreviw
-* tested on version 0.0.6
+* Route to send Link with thumbPreviw
+* tested on version 0.0.8
 * performance: operational
 */
 function sendLinkPreview(instance){
@@ -338,7 +352,7 @@ function sendLinkPreview(instance){
 
 /*
 * That route allow you to get all dialog list from device
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function dialogs(instance){
@@ -359,7 +373,7 @@ function dialogs(instance){
 
 /*
 * That route allow you to get information about an chat just using id of contact
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function getChatById(instance){
@@ -417,7 +431,7 @@ function typing(instance){
 * That's amazing route allow you to see whats going on inside your headless - an screencapture is made from you
 * can be necessary load twice times that address to receive an image, pay some attention too because all images 
 * is saved at /public/screenshot/
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function screenCapture(instance,masterKey){
@@ -443,7 +457,7 @@ function screenCapture(instance,masterKey){
 
 /*
 * Route to check if your device is connected of not to application
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function isConnected(instance,masterKey){
@@ -465,7 +479,7 @@ function isConnected(instance,masterKey){
 
 /*
 * Route to takeOver conenction when your number open whatsWeb into another browser
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function takeOver(instance,masterKey){
@@ -488,7 +502,7 @@ function takeOver(instance,masterKey){
 
 /*
 * Route to change your personal name of number Connected
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Degradated
 */
 function setMyName(){
@@ -513,7 +527,7 @@ function setMyName(){
 
 /*
 * Route to change your personal status of number Connected
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function setMyStatus(){
@@ -538,7 +552,7 @@ function setMyStatus(){
 
 /*
 * This route allow you to check battery of device running whatsApp
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function batteryLevel(instance,masterKey){
@@ -562,8 +576,88 @@ function batteryLevel(instance,masterKey){
 }
 
 /*
+* Read information about instance running
+* tested on version 0.0.8
+* performance: Operational
+*/
+async function readInstance(masterKey){
+	var self = this;
+	if(WA_CLIENT){
+		if(F.config['masterKey'] == masterKey){
+			var resetState = await WA_CLIENT.CONNECTION.setPresence(true); 
+			var isConnected = await WA_CLIENT.CONNECTION.isConnected(); 
+			var battery = await WA_CLIENT.CONNECTION.getBatteryLevel();
+			var connectionState = await WA_CLIENT.CONNECTION.getConnectionState();
+			var me = await WA_CLIENT.CONNECTION.getMe();
+			self.json({
+				status:true,
+				resetState: resetState,
+				networkData: isConnected,
+				battery: battery,
+				state: connectionState,
+				webhook: WA_CLIENT.WEBHOOK,
+				info: me
+			},true);
+		} else {
+			self.json({status:false, err: "You don't have permissions to this action"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+/*
+* Change webhook address over POST request
+* tested on version 0.0.8
+* performance: Not Tested
+*/
+function setWebhook(masterKey){
+	var self = this;
+	if(WA_CLIENT){
+		if(F.config['masterKey'] == masterKey){
+			WA_CLIENT.WEBHOOK = self.body['webhook'];
+			F.config['webhook'] = self.body['webhook'];
+			self.json({status:true, webhook: self.body['webhook']});
+		} else {
+			self.json({status:false, err: "You don't have permissions to this action"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+/*
+* Reloading instance over webhook
+* tested on version 0.0.8
+* performance: Operational
+*/
+async function reloadServer(masterKey){
+	var self = this;
+	var self = this;
+	if(WA_CLIENT){
+		if(F.config['masterKey'] == masterKey){
+			await WA_CLIENT.CONNECTION.kill();
+			await delay(5000);
+			openWA.create("/whatsSessions/"+F.config['instance'],{
+			    headless: true,
+			    autoRefresh:true, 
+			    qrRefreshS:30,
+			    killTimer: 6000
+			}).then(function(client){
+			    WA_CLIENT.SETUP(client, F.config['webhook'], F.config['token']);
+			});
+			self.json({status:true});
+		} else {
+			self.json({status:false, err: "You don't have permissions to this action"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+/*
 * Route check your QRCode over browser
-* tested on version 0.0.4
+* tested on version 0.0.8
 * performance: Operational
 */
 function view_qrcode(CLIENT_ID){

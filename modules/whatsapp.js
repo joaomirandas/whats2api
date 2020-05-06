@@ -1,9 +1,9 @@
 //w2api - Version 0.0.2
-const openWA = require('@open-wa/wa-automate');
-var fs = require('fs');
-var async = require("async");
-var request = require('request');
-var moment = require('moment');
+global.openWA = require('@open-wa/wa-automate');
+const fs = require('fs');
+const async = require("async");
+const request = require('request');
+const moment = require('moment');
 const mime = require('mime-types');
 global.uaOverride = 'WhatsApp/2.16.352 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Safari/605.1.15';
 global.WA_CLIENT = {};
@@ -55,6 +55,7 @@ var SANITIZE_MSG = function(instanceID,data) {
     messages: [{ 
       id: data.id,
       body: data.body,
+      filelink: (data.filelink ? data.filelink : null),
       fromMe: false,
       self: 0,
       isForwarded: data.isForwarded,
@@ -67,7 +68,7 @@ var SANITIZE_MSG = function(instanceID,data) {
       senderName: data.sender.verifiedName,
       caption: (data.caption ? data.caption : null),
       quotedMsgBody: (data.quotedMsgObj ? data.quotedMsgObj : null),
-      chatName: data.sender.formattedName 
+      chatName: data.sender.formattedName,
     }],
     instanceId: instanceID
   });
@@ -128,7 +129,7 @@ WHATS_API.prototype.PROCESS_ACK = function(data){
 * if you have any knowleadge about it - help me to improve
 */
 WHATS_API.prototype.PROCESS_STATE = function(data){
-  console.lgo("STATE CHANGED: ",data);
+  console.log("[STATE CHANGED] -",data);
 };
 
 /*
@@ -146,8 +147,17 @@ WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
       //SAVING MEDIA RECEIVED AND EXPOSE ADDRESS TO WEB
       const mediaData = openWA.decryptMedia(message,uaOverride).then(function(DECRYPTED_DATA){
         var filename = `${message.t}.${mime.extension(message.mimetype)}`;
-        var imageBuffer = Buffer.from(DECRYPTED_DATA, 'base64');
-        that.PROCESS_MESSAGE(message);
+        fs.writeFile(process.cwd()+'/public/cdn/'+filename, Buffer.from(DECRYPTED_DATA, 'base64'), 'base64',function(err) {
+          if(err){
+            console.log("#Error on saving file");
+            message['body'] = `data:${message.mimetype};base64,${message['body']}`;
+            that.PROCESS_MESSAGE(message);
+          } else {
+            message['body'] = `data:${message.mimetype};base64,${message['body']}`;
+            message['filelink'] = F.ip+':'+F.port+'/cdn/'+filename;
+            that.PROCESS_MESSAGE(message);
+          }
+        });
       });
     } else {
       that.PROCESS_MESSAGE(message);
@@ -172,10 +182,6 @@ WHATS_API.prototype.SET_QRCODE = function(code){
 module.exports = WHATS_API;
 
 ON('ready', function(){
-  console.log("\n##############################################");
-  console.log("#######      STARTING SERVICE              #####");
-  console.log("##############################################\n");
-  console.log("@ Servidor Identificado: ",F.config['instance']);
 
   /*
   * Creating Connection for WhatsApp and expose conection to WA_CLIENT global var
@@ -204,6 +210,9 @@ ON('ready', function(){
     // executablePath: '/var/www/app/node_modules/puppeteer/.local-chromium/linux-706915'
   }).then(function(client){
     //EXECUTING MODULE SETUP
+    if(qrCodeManager){
+      qrCodeManager.send({ connected: true });
+    }
     WA_CLIENT.SETUP(client, F.config['webhook'], F.config['token']);
   });
 

@@ -102,7 +102,7 @@ curl --location --request POST 'localhost:8000/83430/sendFile?token=j19ksi1mim1l
 
 ### Sending Location
 This will send a location provided to user.
-*Performance Operational on version 0.0.6*
+*Performance Operational on version 0.0.8*
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -116,7 +116,7 @@ curl --location --request POST 'localhost:8000/83430/sendLocation?token=j19ksi1m
 
 ### Sending Links with preview
 This will send a link with thumb preview
-*Performance Operaitonal on version 0.0.6*
+*Performance operational on version 0.0.8*
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendLinkPreview?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -130,7 +130,7 @@ curl --location --request POST 'localhost:8000/83430/sendLinkPreview?token=j19ks
 
 ### Send Contact
 This route allow you to send a lot of information within an VCard.
-*Performance Operational on version 0.0.5*
+*Performance Operational on version 0.0.8*
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendContact?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -151,7 +151,7 @@ curl --location --request POST 'localhost:8000/83430/sendContact?token=j19ksi1mi
 
 ### Sending Giphy
 This will send an Giphy to user based on his web address.
-*Performance Degradated on version 0.0.1*
+*Performance Operational on version 0.0.8*
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendGiphy?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -164,7 +164,7 @@ curl --location --request POST 'localhost:8000/83430/sendGiphy?token=j19ksi1mim1
 
 ### Change your Status
 This route allow you to change status information of number connected.
-*Performance Operational on version 0.0.4*
+*Performance Operational on version 0.0.8*
 ```curl
 curl --location --request POST 'localhost:8000/83430/setMyStatus?token=j19ksi1mim1lksm12213' \
 --header 'Content-Type: application/json' \
@@ -175,10 +175,45 @@ curl --location --request POST 'localhost:8000/83430/setMyStatus?token=j19ksi1mi
 
 ### Get Battery Level
 This route allow you to check battery level of physical device running WhatsApp.
-*Performance Operational on version 0.0.4*
+*Performance Operational on version 0.0.8*
 ```curl
 curl --location --request GET 'localhost:8000/83430/w2apiisthebestlibrary/batteryLevel?token=j19ksi1mim1lksm12213'
 ```
+
+### Read Instance
+This route allow you get a lot of informations about instance running and number connected to them.
+*Performance Operational on version 0.0.8*
+```curl
+curl --location --request GET 'localhost:8000/w2apiisthebestlibrary/readInstance'
+```
+
+### Restart Instance
+This route allow you restart your instance without aceess them over CLI or SSH, this really usefull with Docker.
+*Performance Operational on version 0.0.8*
+```curl
+curl --location --request GET 'localhost:8000/w2apiisthebestlibrary/reloadServer'
+```
+
+### Change Webhook
+This route allow you to change webhook address on production without restart your server or instance, it's an not permanent change, so if you change this in production and restart, on your next session webhook will continue to be the old one. Tho keep this change permanent you need to change config file on root folder of library.
+*Performance Operational on version 0.0.8*
+```curl
+curl --location --request POST 'localhost:8000/w2apiisthebestlibrary/setWebhook' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "webhook": "https://example2.requestcatcher.com"
+}'
+```
+
+## Receiving files
+Since version 0.0.8 it's implemented a new method to receive files, if some message is received as a file, PDF, Image or Audio your webhook will be fired containing an base64 encoded file in that format.
+```curl
+data:[<media type>][;charset=<character set>][;base64],<data>
+```
+But to became more aasy for who doenst know how to handle files in base64 format this library will save received files into his own cdn, so when messages contain a file, body of mesage will have an filelink address, and you can just access and get your file from there. These files as saved on /public/cdn/ and you can manage there if you preffer. 
+
+For users running into docker containers it's important realize of storage files as deletes every time you rebuild the container, for persist these files you need to create Volumes.
+
 ## Security
 
 To avoid issues with use of this library, it's not allowed start conversations, you only can answer who already talked to you. I can't garantee your number will not be blocked from WhatsApp - You need to be aware of the use you will be making of this tool, be aware you are only responsible for each and every use of this library.

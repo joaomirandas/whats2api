@@ -1,3 +1,4 @@
 node_modules/*
 whatsSessions/*
 debug.js.json
+/public/cdn/*
