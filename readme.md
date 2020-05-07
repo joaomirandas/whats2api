@@ -87,7 +87,7 @@ Request response:
 }
 ```
 
-### Sending Files
+### Sending Files (Image, PDF, TXT, etc..)
 This will be sent as attached file, it's important pay attention on maxfilesize allowed.
 ```curl
 curl --location --request POST 'localhost:8000/83430/sendFile?token=j19ksi1mim1lksm12213' \
