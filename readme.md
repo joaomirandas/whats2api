@@ -1,6 +1,7 @@
 # WHATS2API - WhatsApp REST API 
 
 [![npm version](https://img.shields.io/npm/v/w2api-master.svg?color=green)](https://www.npmjs.com/package/w2api-master)
+<a href="https://discord.gg/UCc9PC"><img src="https://img.shields.io/discord/696393193591144532?color=blueviolet&label=discord&style=flat" /></a>
 
 Welcome to best REST API for WhatsApp. 
 This library provide you an complete solution for WhatsApp REST API without any necessities of code or change anything, obviously, if you want, you can contribute but give this information for us over PR. - Important to know, it's not an official solution - if you need something professional please don't use this package.
