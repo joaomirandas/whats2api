@@ -1,6 +1,6 @@
 # WHATS2API - WhatsApp REST API 
 
-<a style="max-width: 400px;" href="https://liveapps.me/?utm_source=github&utm_medium=badge&utm_campaign=lite"><img src="https://liveapps.me/pro_badge.png" /></a></br>
+<a href="https://liveapps.me/?utm_source=github&utm_medium=badge&utm_campaign=lite"><img style="max-width: 400px;" src="https://liveapps.me/pro_badge.png" /></a></br>
 [![npm version](https://img.shields.io/npm/v/w2api-master.svg?color=green)](https://www.npmjs.com/package/w2api-master)
 <a href="https://discord.gg/UCc9PC"><img src="https://img.shields.io/discord/696393193591144532?color=blueviolet&label=discord&style=flat" /></a>
 
