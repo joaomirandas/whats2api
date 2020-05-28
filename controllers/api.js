@@ -633,7 +633,6 @@ function setWebhook(masterKey){
 */
 async function reloadServer(masterKey){
 	var self = this;
-	var self = this;
 	if(WA_CLIENT){
 		if(F.config['masterKey'] == masterKey){
 			await WA_CLIENT.CONNECTION.kill();

@@ -206,6 +206,8 @@ ON('ready', function(){
     autoRefresh:true, 
     qrRefreshS:30,
     killTimer: 6000
+    blockCrashLogs: true, 
+    bypassCSP: true
     // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     // executablePath: '/var/www/app/node_modules/puppeteer/.local-chromium/linux-706915'
   }).then(function(client){
