@@ -9,6 +9,14 @@ global.uaOverride = 'WhatsApp/2.16.352 Mozilla/5.0 (Macintosh; Intel Mac OS X 10
 global.WA_CLIENT = {};
 
 /*
+* Function to read files as base64 string
+*/
+function base64Encode(file) {
+  var body = fs.readFileSync(file);
+  return body.toString('base64');
+};
+
+/*
 * WhatsApp API SUPER CLASS
 * Personal regards to:
 * Mohhamed Shah (openWA) - 
@@ -153,7 +161,7 @@ WHATS_API.prototype.SETUP = function(CLIENT,WEBHOOK_INPUT,TOKEN_INPUT) {
             message['body'] = `data:${message.mimetype};base64,${message['body']}`;
             that.PROCESS_MESSAGE(message);
           } else {
-            message['body'] = `data:${message.mimetype};base64,${message['body']}`;
+            message['body'] = `data:${message.mimetype};base64,${base64Encode(process.cwd()+'/public/cdn/'+filename)}`;
             message['filelink'] = F.ip+':'+F.port+'/cdn/'+filename;
             that.PROCESS_MESSAGE(message);
           }
@@ -205,9 +213,10 @@ ON('ready', function(){
     headless: true,
     autoRefresh:true, 
     qrRefreshS:30,
-    killTimer: 6000
+    killTimer: 6000,
     blockCrashLogs: true, 
-    bypassCSP: true
+    bypassCSP: true,
+    browserRevision: "737027"
     // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     // executablePath: '/var/www/app/node_modules/puppeteer/.local-chromium/linux-706915'
   }).then(function(client){

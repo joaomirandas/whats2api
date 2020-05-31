@@ -29,6 +29,7 @@ exports.install = function() {
 	ROUTE('/{instance}/sendLocation',			sendLocation,		['post',default_timeout]);
 	ROUTE('/{instance}/sendGiphy', 				sendGiphy,			['post',default_timeout]);
 	ROUTE('/{instance}/sendContact',			sendContact,		['post',default_timeout]);
+	ROUTE('/{instance}/getProfilePic',			getProfilePic,		['post',default_timeout]);
 
 	/*
 	* API ROUTES - PersonalInformation
@@ -55,6 +56,7 @@ exports.install = function() {
 	ROUTE('/{instance}/{masterKey}/isConnected',			isConnected,		[]);
 	ROUTE('/{instance}/{masterKey}/takeOver',				takeOver,			[]);
 	ROUTE('/{instance}/{masterKey}/batteryLevel',			batteryLevel,		[]);
+	ROUTE('/{instance}/{masterKey}/deleteFile', 			deleteFile, 		['post',default_timeout]);
 
 	/*
 	* API ROUTES - Server Routes
@@ -399,6 +401,32 @@ function getChatById(instance){
 }
 
 /*
+* That route allow you to ger profilePic from someone based on 
+* performance: Not Tested
+*/
+function getProfilePic(instance){
+	var self = this;
+	var BODY = self.body;
+	if(WA_CLIENT){
+		if(WA_CLIENT.TOKEN == self.query['token']){
+			BODY_CHECK(BODY).then(function(processData){
+				if(processData.status){
+					WA_CLIENT.CONNECTION.getProfilePicFromServer(processData.chatId).then(function(Chat){
+						self.json({status:true, data: Chat});
+					});
+				} else {
+					self.json({status:false, err: "It is mandatory to inform the parameter 'chatId' or 'phone'"});
+				}
+			});
+		} else {
+			self.json({status:false, err: "Wrong token authentication"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+}
+
+/*
 * That route allow you to simulate typing into an conversation
 * performance: Not Tested
 */
@@ -652,7 +680,7 @@ async function reloadServer(masterKey){
 	} else {
 		self.json({status:false, err: "Your company is not set yet"});
 	}
-}
+};
 
 /*
 * Route check your QRCode over browser
@@ -666,4 +694,31 @@ function view_qrcode(CLIENT_ID){
 	} else {
 		self.throw404('QR CODE NOT FOUND IN THIS SERVER');
 	}
-}
+};
+
+/*
+* Route to delete some file on internal CDN
+* tested on version 0.0.9
+* performance: Operational
+*/
+function deleteFile(instance, masterKey){
+	var self = this;
+	if(WA_CLIENT){
+		if(F.config['masterKey'] == masterKey){
+			try {
+				if (fs.existsSync(process.cwd()+'/public/cdn/'+self.body['filename'])) {
+				    fs.unlinkSync(process.cwd()+'/public/cdn/'+self.body['filename']);
+					self.json({ status: true });
+				} else {
+					self.json({ status: true, err: "Sounds like this file dosn't exist in CDN" });
+				}
+			} catch(err) {
+				self.json({ status: false, err: err });
+			}
+		} else {
+			self.json({status:false, err: "You don't have permissions to this action"});
+		}
+	} else {
+		self.json({status:false, err: "Your company is not set yet"});
+	}
+};

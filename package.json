@@ -1,6 +1,6 @@
 {
   "name": "w2api-master",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "An Javascript based WhatsApp library for connect your data as API",
   "main": "index.js",
   "scripts": {
@@ -24,13 +24,14 @@
   },
   "homepage": "https://github.com/joaomirandasa/whats2api#readme",
   "dependencies": {
-    "@open-wa/wa-automate": "^1.9.9",
+    "@open-wa/wa-automate": "^1.9.57",
     "async": "^3.2.0",
     "download-file": "^0.1.5",
     "minimist": ">=0.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.26.0",
+    "puppeteer": "^3.1.0",
     "request": "^2.88.2",
-    "total.js": "^3.4.1",
+    "total.js": "^3.4.3",
     "vcards-js": "^2.10.0"
   }
 }
